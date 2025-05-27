@@ -27,8 +27,7 @@ async function buildApp() {
         target: {
           target: 'nsis',
           arch: ['x64']
-        },
-        icon: 'electron/icon.ico'
+        }
       },
       nsis: {
         oneClick: false,
