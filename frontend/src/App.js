@@ -15,12 +15,31 @@ const App = () => {
   const [logs, setLogs] = useState([]);
   
   const videoRef = useRef(null);
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  // Use localhost for Electron app
+  const backendUrl = window.location.protocol === 'file:' 
+    ? 'http://127.0.0.1:8001' 
+    : (process.env.REACT_APP_BACKEND_URL || 'http://127.0.0.1:8001');
 
   const addLog = (message, type = 'info') => {
     const timestamp = new Date().toLocaleTimeString();
     setLogs(prev => [...prev.slice(-9), { message, type, timestamp }]);
   };
+
+  useEffect(() => {
+    addLog('Twitch Stream Studio started', 'success');
+    
+    // Test backend connection
+    fetch(`${backendUrl}/api/health`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'healthy') {
+          addLog('Backend connection established', 'success');
+        }
+      })
+      .catch(err => {
+        addLog('Backend connection failed - some features may not work', 'error');
+      });
+  }, [backendUrl]);
 
   const startScreenCapture = async () => {
     try {
@@ -73,6 +92,7 @@ const App = () => {
     try {
       if (!credentials.clientId || !credentials.clientSecret) {
         setError('Please configure Twitch credentials in settings');
+        addLog('Missing Twitch credentials', 'error');
         return;
       }
 
@@ -103,7 +123,7 @@ const App = () => {
       if (result.success) {
         setIsStreaming(true);
         setStreamStatus('live');
-        addLog('Stream started successfully!', 'success');
+        addLog('Stream started successfully! You are now live on Twitch!', 'success');
       } else {
         throw new Error(result.error || 'Failed to start stream');
       }
@@ -167,6 +187,11 @@ const App = () => {
       setError(errorMsg);
       addLog(errorMsg, 'error');
     }
+  };
+
+  const openTwitchDev = () => {
+    // In Electron, this will open in external browser
+    window.open('https://dev.twitch.tv/console/apps', '_blank');
   };
 
   const getStatusColor = () => {
@@ -239,6 +264,7 @@ const App = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                       <p className="text-gray-400">No screen capture active</p>
+                      <p className="text-gray-500 text-sm mt-2">Click "Start Stream" to begin</p>
                     </div>
                   </div>
                 )}
@@ -317,12 +343,30 @@ const App = () => {
                     />
                   </div>
 
-                  <button
-                    onClick={testCredentials}
-                    className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
-                  >
-                    Test Credentials
-                  </button>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={testCredentials}
+                      className="flex-1 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
+                    >
+                      Test Credentials
+                    </button>
+                    <button
+                      onClick={openTwitchDev}
+                      className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                      title="Get Twitch Credentials"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  <div className="text-xs text-gray-400 bg-gray-700 p-3 rounded">
+                    <p className="font-medium mb-1">Need credentials?</p>
+                    <p>1. Click the external link button above</p>
+                    <p>2. Create a new app on Twitch Developer Console</p>
+                    <p>3. Copy Client ID and Client Secret here</p>
+                  </div>
                 </div>
               </div>
             )}
