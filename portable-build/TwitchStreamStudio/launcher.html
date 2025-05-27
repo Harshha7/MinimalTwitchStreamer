@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Twitch Stream Studio Launcher</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        .button { background: #9146ff; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 10px; }
+        .warning { background: #ff6b6b; color: white; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .success { background: #51cf66; color: white; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .instructions { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>🎮 Twitch Stream Studio</h1>
+    <p>Minimal screensharing app for Twitch streaming</p>
+    
+    <div class="instructions">
+        <h3>📋 Setup Instructions:</h3>
+        <ol>
+            <li><strong>Install Python 3.8+</strong> from <a href="https://python.org" target="_blank">python.org</a></li>
+            <li><strong>Install FFmpeg</strong> from <a href="https://ffmpeg.org/download.html" target="_blank">ffmpeg.org</a></li>
+            <li><strong>Get Twitch credentials</strong> from <a href="https://dev.twitch.tv/console/apps" target="_blank">dev.twitch.tv</a></li>
+            <li>Run the appropriate startup script for your system</li>
+        </ol>
+    </div>
+
+    <h3>🚀 Launch Application:</h3>
+    <button class="button" onclick="window.open('http://localhost:3000')">Open App (if already running)</button>
+    
+    <div class="instructions">
+        <h4>Windows Users:</h4>
+        <p>Double-click <code>start.bat</code> to launch the application</p>
+        
+        <h4>Linux/Mac Users:</h4>
+        <p>Run <code>./start.sh</code> in terminal to launch the application</p>
+    </div>
+
+    <div class="warning">
+        <strong>⚠️ Note:</strong> Make sure to start the application using the appropriate script before clicking "Open App"
+    </div>
+
+    <script>
+        // Auto-check if app is running
+        fetch('http://localhost:3000')
+            .then(() => {
+                document.body.innerHTML += '<div class="success">✅ Application is running! Click "Open App" button above.</div>';
+            })
+            .catch(() => {
+                document.body.innerHTML += '<div class="warning">❌ Application not running. Please start it using the startup script.</div>';
+            });
+    </script>
+</body>
+</html>
