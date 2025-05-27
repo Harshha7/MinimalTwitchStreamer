@@ -22,7 +22,7 @@ function createWindow() {
       webSecurity: false, // Allow screen capture
       allowRunningInsecureContent: true
     },
-    icon: path.join(__dirname, 'icon.png'),
+    icon: path.join(__dirname, '../electron/icon.png'),
     titleBarStyle: 'default',
     show: false
   });
