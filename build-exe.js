@@ -34,9 +34,6 @@ async function buildApp() {
         allowToChangeInstallationDirectory: true,
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
-        installerIcon: 'electron/icon.ico',
-        uninstallerIcon: 'electron/icon.ico',
-        installerHeaderIcon: 'electron/icon.ico',
         shortcutName: 'Twitch Stream Studio'
       },
       extraMetadata: {
