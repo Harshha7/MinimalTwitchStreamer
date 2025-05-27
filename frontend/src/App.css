@@ -1,38 +1,120 @@
-.App {
-    text-align: center;
+/* Custom scrollbar for logs */
+.space-y-2::-webkit-scrollbar {
+  width: 4px;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+.space-y-2::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 2px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+.space-y-2::-webkit-scrollbar-thumb {
+  background: #6B7280;
+  border-radius: 2px;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.space-y-2::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
 }
 
-.App-link {
-    color: #61dafb;
+/* Video element styling */
+video {
+  background: #1F2937;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Button hover effects */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Focus styles for accessibility */
+input:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+}
+
+/* Pulse animation for status indicator */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid-cols-1.lg\\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  
+  .lg\\:col-span-2 {
+    grid-column: span 1;
+  }
+}
+
+/* Dark theme form styling */
+input[type="text"], 
+input[type="password"] {
+  background-color: #374151;
+  border-color: #4B5563;
+  color: #F9FAFB;
+}
+
+input[type="text"]:focus, 
+input[type="password"]:focus {
+  border-color: #8B5CF6;
+  background-color: #374151;
+}
+
+/* Status colors */
+.text-red-500 { color: #EF4444; }
+.text-green-500 { color: #10B981; }
+.text-yellow-500 { color: #F59E0B; }
+.text-gray-500 { color: #6B7280; }
+
+/* Button styling improvements */
+.bg-red-600:hover {
+  background-color: #DC2626;
+}
+
+.bg-purple-600:hover {
+  background-color: #7C3AED;
+}
+
+.bg-gray-600:hover {
+  background-color: #4B5563;
+}
+
+/* Card shadows */
+.bg-gray-800 {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Loading states */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
